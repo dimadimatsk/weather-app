@@ -1,0 +1,23 @@
+@import "reset/reset.css";
+@import "./tailwind/tailwind.css";
+@import "./components/all.css";
+
+body {
+  margin: 0;
+  font-family: "Kumbh Sans", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #bae6fd;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+.wrapper {
+  width: calc(100vw - 100px);
+  height: 100%;
+  margin: 0px auto;
+  border-radius: 10px;
+  max-width: 1440px;
+}
