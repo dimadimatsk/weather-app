@@ -10,7 +10,7 @@ const Header = () => {
           <img className="w-14 h-14 mr-3" src={logoSvg} />
           <div>
             <h1 className="text-sky-900 text-2xl">Weather App</h1>
-            <p className="text-sky-700">Your personal weatherman</p>
+            <p className="text-sky-700">Ваш персональный метеоролог</p>
           </div>
         </div>
         <ClockBlock />

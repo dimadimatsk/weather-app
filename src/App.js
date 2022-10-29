@@ -1,9 +1,15 @@
-import Header from "./components/Header";
+import Footer from './components/Footer';
+import Header from './components/Header';
+import Main from './pages/Main';
 
 function App() {
   return (
     <div className="wrapper">
-      <Header></Header>
+      <Header />
+      <div className="content">
+        <Main />
+      </div>
+      <Footer />
     </div>
   );
 }
