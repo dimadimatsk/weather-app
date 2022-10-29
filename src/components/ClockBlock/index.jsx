@@ -19,7 +19,9 @@ const ClockBlock = () => {
 
   const dayOfWeek = new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(dateState);
   const today = dateState.toLocaleDateString();
-  const currentTime = `${dateState.getHours()}:${dateState.getMinutes()}`;
+  const currentTime = `${dateState.getHours()}:${
+    dateState.getMinutes() < 10 ? '0' + dateState.getMinutes() : dateState.getMinutes()
+  }`;
   const dayPart = Number(dateState.getHours()) > 17;
 
   return (

@@ -6,13 +6,13 @@ import { faCircleChevronRight, faCircleChevronLeft } from '@fortawesome/free-sol
 import { useState } from 'react';
 
 const Carousel = ({ address, forecast }) => {
-  const [offset, setOffset] = useState('');
+  const [offset, setOffset] = useState(-5990);
 
   const handleLeftClick = () => {
     console.log('left');
 
     setOffset((currentOffset) => {
-      const newOffset = currentOffset + 906;
+      const newOffset = currentOffset + 1198;
 
       console.log(newOffset);
       return Math.min(newOffset, 0);
@@ -22,10 +22,10 @@ const Carousel = ({ address, forecast }) => {
   const handleRightClick = () => {
     console.log('right');
 
-    const maxOffset = -(906 * (forecast.length - 1));
+    const maxOffset = -(1198 * (forecast.length - 1));
 
     setOffset((currentOffset) => {
-      const newOffset = currentOffset - 906;
+      const newOffset = currentOffset - 1198;
 
       console.log(newOffset, maxOffset);
       return Math.max(newOffset, maxOffset);
@@ -33,9 +33,10 @@ const Carousel = ({ address, forecast }) => {
   };
 
   return (
-    <div className="h-[500px] w-[1050px] flex items-center">
+    <div className="h-[500px] w-[1350px] flex items-center">
       <FontAwesomeIcon
-        className={`mr-3 ${styles.arrow}`}
+        className={`mr-4 ${styles.arrow} ${offset === 0 ? styles.disabled : ''}`}
+        disabled={offset === 0}
         icon={faCircleChevronLeft}
         onClick={handleLeftClick}
       />
@@ -56,12 +57,14 @@ const Carousel = ({ address, forecast }) => {
               pressure={day.pressure}
               windspeed={day.windspeed}
               description={day.description}
+              icon={day.icon}
             />
           ))}
         </div>
       </div>
       <FontAwesomeIcon
-        className={`ml-3 ${styles.arrow}`}
+        className={`ml-4 ${styles.arrow} ${offset === -11980 ? styles.disabled : ''}`}
+        disabled={offset === -11980}
         icon={faCircleChevronRight}
         onClick={handleRightClick}
       />
