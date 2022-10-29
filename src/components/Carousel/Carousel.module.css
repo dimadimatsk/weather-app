@@ -7,7 +7,12 @@
 }
 
 .arrow:hover {
-  transform: scale(1.1);
+  color: #075985;
+}
+
+.arrow:active {
+  color: #075985;
+  transform: translateY(2px);
 }
 
 .arrow.disabled {
