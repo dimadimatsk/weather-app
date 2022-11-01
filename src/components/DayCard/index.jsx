@@ -49,10 +49,12 @@ const index = ({
           newDate.toLocaleString('default', { month: 'long' }).slice(1)}
         , {newDate.getDate()}
       </p>
-      <div className="flex flex-row justify-end items-center">
-        <img src={thermometerImg} className="w-28" alt="" />
-        <h1 className="text-8xl">{temp}&#176;C</h1>
+      <div className="flex flex-row justify-between items-center">
         <img src={weatherIcons[icon]} alt="weather-img" className="w-32 ml-6" />
+        <div className='flex flex-row justify-end items-center'>
+          <img src={thermometerImg} className="w-28" alt="" />
+          <h1 className="text-8xl">{temp}&#176;C</h1>
+        </div>
       </div>
       <div className="flex justify-end">
         <p className="text-2xl">{description}</p>

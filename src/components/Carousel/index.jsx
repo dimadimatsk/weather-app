@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleChevronRight, faCircleChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
 
-const Carousel = ({ address, forecast }) => {
+const Carousel = ({ resolvedAddress, forecast }) => {
   const [offset, setOffset] = useState(-5990);
 
   const handleLeftClick = () => {
@@ -50,7 +50,7 @@ const Carousel = ({ address, forecast }) => {
             <DayCard
               key={index}
               temp={day.temp}
-              address={address}
+              address={resolvedAddress}
               date={day.datetime}
               humidity={day.humidity}
               feelslike={day.feelslike}
