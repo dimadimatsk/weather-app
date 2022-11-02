@@ -6,26 +6,47 @@ import { setSearchCityValue } from '../../redux/slices/searchSlice';
 import { useRef } from 'react';
 import { useCallback } from 'react';
 import { debounce } from 'lodash';
+import axios from 'axios';
 
 const Search = () => {
   const [value, setValue] = useState('');
   const dispatch = useDispatch();
   const inputRef = useRef(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [cities, setCities] = useState([]);
+
+  const search = async (city) => {
+    const { data } = await axios.get(
+      `https://api.geoapify.com/v1/geocode/search?city=${city}&apiKey=492a13bf2b5549489e78e7ce89418ad8`,
+    );
+    const cities = data.features;
+    setIsLoading(false);
+    setCities(cities);
+  };
 
   const followSearchValue = useCallback(
     debounce((value) => {
-      dispatch(setSearchCityValue(value));
-    }, 1500),
+      if (value) {
+        search(value);
+      } else {
+        setCities([]);
+      }
+
+      // dispatch(setSearchCityValue(value));
+    }, 1000),
     [],
   );
 
   const onInputChange = (e) => {
+    setIsLoading(true);
     setValue(e.target.value);
     followSearchValue(e.target.value);
   };
 
   const onClickClear = () => {
     setValue('');
+    setCities([]);
     inputRef.current.focus();
   };
 
@@ -46,6 +67,24 @@ const Search = () => {
         className={styles.input}
         placeholder="Введите название города"
       />
+      {isLoading ? (
+        <div className={styles.searchbar}>
+          <div className={`load ${styles.searchcircle}`}></div>
+        </div>
+      ) : (
+        value &&
+        cities.length > 0 && (
+          <div className={styles.searchbar}>
+            <ul className="flex flex-col items-start">
+              {cities.map((city) => (
+                <li className={`${styles.city} w-full text-left px-[42px] py-2`}>
+                  {city.properties.formatted}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )
+      )}
       {value && (
         <svg
           onClick={onClickClear}

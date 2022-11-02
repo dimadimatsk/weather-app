@@ -43,12 +43,12 @@ const Main = () => {
     getWeather();
   }, []);
 
-  useEffect(() => {
-    getWeather();
-  }, [searchValue]);
+  // useEffect(() => {
+  //   getWeather();
+  // }, [searchValue]);
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center relative">
       <Search />
       {isLoading ? (
         <div className="h-[500px] w-[1350px] flex items-center justify-center">

@@ -33,7 +33,7 @@ const Carousel = ({ resolvedAddress, forecast }) => {
   };
 
   return (
-    <div className="h-[500px] w-[1350px] flex items-center">
+    <div className="h-[500px] w-[1350px] flex items-center z-[5]">
       <FontAwesomeIcon
         className={`mr-4 ${styles.arrow} ${offset === 0 ? styles.disabled : ''}`}
         disabled={offset === 0}
