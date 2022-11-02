@@ -1,36 +1,26 @@
 import React from 'react';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './Search.module.css';
 import { setSearchCityValue } from '../../redux/slices/searchSlice';
 import { useRef } from 'react';
 import { useCallback } from 'react';
 import { debounce } from 'lodash';
-import axios from 'axios';
+import { fetchGeoData } from '../../redux/slices/geoSlice';
+import { setCitiesDefault, setStatus } from '../../redux/slices/geoSlice';
 
 const Search = () => {
   const [value, setValue] = useState('');
   const dispatch = useDispatch();
   const inputRef = useRef(null);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const [cities, setCities] = useState([]);
-
-  const search = async (city) => {
-    const { data } = await axios.get(
-      `https://api.geoapify.com/v1/geocode/search?city=${city}&apiKey=492a13bf2b5549489e78e7ce89418ad8`,
-    );
-    const cities = data.features;
-    setIsLoading(false);
-    setCities(cities);
-  };
+  const { cities, status } = useSelector((state) => state.geo);
 
   const followSearchValue = useCallback(
     debounce((value) => {
       if (value) {
-        search(value);
+        dispatch(fetchGeoData(value));
       } else {
-        setCities([]);
+        dispatch(setCitiesDefault([]));
       }
 
       // dispatch(setSearchCityValue(value));
@@ -39,14 +29,14 @@ const Search = () => {
   );
 
   const onInputChange = (e) => {
-    setIsLoading(true);
+    dispatch(setStatus('loading'));
     setValue(e.target.value);
     followSearchValue(e.target.value);
   };
 
   const onClickClear = () => {
     setValue('');
-    setCities([]);
+    dispatch(setCitiesDefault([]));
     inputRef.current.focus();
   };
 
@@ -67,23 +57,24 @@ const Search = () => {
         className={styles.input}
         placeholder="Введите название города"
       />
-      {isLoading ? (
+      {status === 'loading' && (
         <div className={styles.searchbar}>
           <div className={`load ${styles.searchcircle}`}></div>
         </div>
-      ) : (
-        value &&
-        cities.length > 0 && (
-          <div className={styles.searchbar}>
-            <ul className="flex flex-col items-start">
-              {cities.map((city) => (
-                <li className={`${styles.city} w-full text-left px-[42px] py-2`}>
-                  {city.properties.formatted}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )
+      )}
+      {value && cities.length > 0 && (
+        <div className={styles.searchbar}>
+          <ul className="flex flex-col items-start">
+            {cities.map((city) => (
+              <li className={`${styles.city} w-full text-left px-[42px] py-2`}>
+                {city.properties.formatted}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+      {value && cities.length === 0 && status !== 'loading' && (
+        <div className={`${styles.searchbar} px-[42px] py-2 text-left`}>Ничего не найдено</div>
       )}
       {value && (
         <svg
