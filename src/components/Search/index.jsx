@@ -2,18 +2,20 @@ import React from 'react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './Search.module.css';
-import { setSearchCityValue } from '../../redux/slices/searchSlice';
+import { fetchWeatherData } from '../../redux/slices/searchSlice';
 import { useRef } from 'react';
 import { useCallback } from 'react';
 import { debounce } from 'lodash';
 import { fetchGeoData } from '../../redux/slices/geoSlice';
-import { setCitiesDefault, setStatus } from '../../redux/slices/geoSlice';
+import { setCitiesDefault, setStatus, setCoordinates } from '../../redux/slices/geoSlice';
+import { useEffect } from 'react';
 
-const Search = () => {
+const Search = ({ dateMinusFiveDays, datePlusFiveDays }) => {
   const [value, setValue] = useState('');
   const dispatch = useDispatch();
   const inputRef = useRef(null);
-  const { cities, status } = useSelector((state) => state.geo);
+  const isMounted = useRef(false);
+  const { cities, status, lat, lon } = useSelector((state) => state.geo);
 
   const followSearchValue = useCallback(
     debounce((value) => {
@@ -22,9 +24,7 @@ const Search = () => {
       } else {
         dispatch(setCitiesDefault([]));
       }
-
-      // dispatch(setSearchCityValue(value));
-    }, 1000),
+    }, 500),
     [],
   );
 
@@ -39,6 +39,18 @@ const Search = () => {
     dispatch(setCitiesDefault([]));
     inputRef.current.focus();
   };
+
+  const onSelectCity = (item) => {
+    dispatch(setCoordinates(item));
+    onClickClear();
+    isMounted.current = true;
+  };
+
+  useEffect(() => {
+    if (isMounted.current) {
+      dispatch(fetchWeatherData({ lon, lat, dateMinusFiveDays, datePlusFiveDays }));
+    }
+  }, [lon, lat]);
 
   return (
     <div className={styles.root}>
@@ -65,8 +77,11 @@ const Search = () => {
       {value && cities.length > 0 && (
         <div className={styles.searchbar}>
           <ul className="flex flex-col items-start">
-            {cities.map((city) => (
-              <li className={`${styles.city} w-full text-left px-[42px] py-2`}>
+            {cities.map((city, index) => (
+              <li
+                key={index}
+                onClick={() => onSelectCity(city.properties)}
+                className={`${styles.city} w-full text-left px-[42px] py-2`}>
                 {city.properties.formatted}
               </li>
             ))}

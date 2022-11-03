@@ -12,6 +12,8 @@ export const fetchGeoData = createAsyncThunk('geo/fetchGeoStatus', async (city) 
 const initialState = {
   cities: [],
   status: 'success',
+  lat: 1,
+  lon: 1,
 };
 
 const geoSlice = createSlice({
@@ -24,6 +26,10 @@ const geoSlice = createSlice({
     },
     setStatus(state, action) {
       state.status = action.payload;
+    },
+    setCoordinates(state, action) {
+      state.lat = action.payload.lat;
+      state.lon = action.payload.lon;
     },
   },
   extraReducers: (builder) => {
@@ -43,4 +49,4 @@ const geoSlice = createSlice({
 });
 
 export default geoSlice.reducer;
-export const { setCitiesDefault, setStatus } = geoSlice.actions;
+export const { setCitiesDefault, setStatus, setCoordinates } = geoSlice.actions;
