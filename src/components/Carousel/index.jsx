@@ -4,9 +4,13 @@ import styles from './Carousel.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleChevronRight, faCircleChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 
-const Carousel = ({ resolvedAddress, forecast }) => {
+const Carousel = () => {
   const [offset, setOffset] = useState(-5990);
+
+  const forecast = useSelector((state) => state.search.res.days);
+  const locName = useSelector((state) => state.geo.cityName);
 
   const handleLeftClick = () => {
     console.log('left');
@@ -50,7 +54,7 @@ const Carousel = ({ resolvedAddress, forecast }) => {
             <DayCard
               key={index}
               temp={day.temp}
-              address={resolvedAddress}
+              address={locName}
               date={day.datetime}
               humidity={day.humidity}
               feelslike={day.feelslike}

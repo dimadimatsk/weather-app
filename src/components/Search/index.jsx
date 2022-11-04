@@ -6,7 +6,7 @@ import { fetchWeatherData } from '../../redux/slices/searchSlice';
 import { useRef } from 'react';
 import { useCallback } from 'react';
 import { debounce } from 'lodash';
-import { fetchGeoData } from '../../redux/slices/geoSlice';
+import { fetchGeoData, setCityName } from '../../redux/slices/geoSlice';
 import { setCitiesDefault, setStatus, setCoordinates } from '../../redux/slices/geoSlice';
 import { useEffect } from 'react';
 
@@ -42,6 +42,7 @@ const Search = ({ dateMinusFiveDays, datePlusFiveDays }) => {
 
   const onSelectCity = (item) => {
     dispatch(setCoordinates(item));
+    dispatch(setCityName(item));
     onClickClear();
     isMounted.current = true;
   };

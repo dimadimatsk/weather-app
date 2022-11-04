@@ -17,7 +17,7 @@ const ClockBlock = () => {
     };
   }, []);
 
-  const dayOfWeek = new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(dateState);
+  const dayOfWeek = new Intl.DateTimeFormat('ru-RU', { weekday: 'short' }).format(dateState);
   const today = dateState.toLocaleDateString();
   const currentTime = `${dateState.getHours()}:${
     dateState.getMinutes() < 10 ? '0' + dateState.getMinutes() : dateState.getMinutes()
@@ -26,14 +26,13 @@ const ClockBlock = () => {
 
   return (
     <div className="flex flex-col items-end">
-      <div className="flex flex-row items-center">
-        <img className="w-7 h-7 mr-1" src={dayPart ? nightPic : dayPic} />
-        <h1 className="text-sky-900 text-2xl">Tomsk</h1>
-      </div>
       <p className="text-sky-700">
         {dayOfWeek}, {today}
       </p>
-      <p className="text-sky-700">{currentTime}</p>
+      <div className="flex flex-row items-center">
+        <img alt="daynight" className="w-7 h-7 mr-1" src={dayPart ? nightPic : dayPic} />
+        <p className="text-sky-700">{currentTime}</p>
+      </div>
     </div>
   );
 };
