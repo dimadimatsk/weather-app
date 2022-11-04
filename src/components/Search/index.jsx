@@ -92,6 +92,9 @@ const Search = ({ dateMinusFiveDays, datePlusFiveDays }) => {
       {value && cities.length === 0 && status !== 'loading' && (
         <div className={`${styles.searchbar} px-[42px] py-2 text-left`}>Ничего не найдено</div>
       )}
+      {status === 'error' && (
+        <div className={`${styles.searchbar} px-[42px] py-2 text-left`}>Ошибка сервера</div>
+      )}
       {value && (
         <svg
           onClick={onClickClear}

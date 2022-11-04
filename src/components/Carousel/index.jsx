@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
 const Carousel = () => {
-  const [offset, setOffset] = useState(-5990);
+  const [offset, setOffset] = useState(-6440);
 
   const forecast = useSelector((state) => state.search.res.days);
   const locName = useSelector((state) => state.geo.cityName);
@@ -16,7 +16,7 @@ const Carousel = () => {
     console.log('left');
 
     setOffset((currentOffset) => {
-      const newOffset = currentOffset + 1198;
+      const newOffset = currentOffset + 1288;
 
       console.log(newOffset);
       return Math.min(newOffset, 0);
@@ -26,10 +26,10 @@ const Carousel = () => {
   const handleRightClick = () => {
     console.log('right');
 
-    const maxOffset = -(1198 * (forecast.length - 1));
+    const maxOffset = -(1288 * (forecast.length - 1));
 
     setOffset((currentOffset) => {
-      const newOffset = currentOffset - 1198;
+      const newOffset = currentOffset - 1288;
 
       console.log(newOffset, maxOffset);
       return Math.max(newOffset, maxOffset);
@@ -37,7 +37,7 @@ const Carousel = () => {
   };
 
   return (
-    <div className="h-[500px] w-[1350px] flex items-center z-[5]">
+    <div className="h-[500px] w-[1440px] flex items-center z-[5]">
       <FontAwesomeIcon
         className={`mr-4 ${styles.arrow} ${offset === 0 ? styles.disabled : ''}`}
         disabled={offset === 0}

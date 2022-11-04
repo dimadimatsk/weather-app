@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import Carousel from '../components/Carousel';
 import Search from '../components/Search';
+import errorImg from '../assets/images/error.png'
 
 const Main = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -23,17 +24,22 @@ const Main = () => {
     .join('-');
 
   return (
-    <div className="flex flex-col items-center relative">
+    <div className="flex w-full flex-col items-center relative">
       <Search dateMinusFiveDays={dateMinusFiveDays} datePlusFiveDays={datePlusFiveDays} />
       {status === 'idle'}
       {status === 'loading' && (
-        <div className="h-[500px] w-[1350px] flex items-center justify-center">
+        <div className="h-[500px] w-[1440px] flex items-center justify-center">
           <div className="load"></div>
         </div>
       )}
-      {status === 'success' ? (
-        <Carousel />
-      ) : <></>}
+      {status === 'success' && <Carousel />}
+      {status === 'error' && (
+        <div className="text-center">
+          <img src={errorImg} className="w-[700px]" alt="error" />
+          <h2 className='text-sky-700'>Oops! Something wrong...</h2>
+          <p className='text-sky-700'>Please, try again later.</p>
+        </div>
+      )}
     </div>
   );
 };
