@@ -43,7 +43,9 @@ const Search = ({ dateMinusFiveDays, datePlusFiveDays }) => {
   const onSelectCity = (item) => {
     dispatch(setCoordinates(item));
     dispatch(setCityName(item));
-    onClickClear();
+    inputRef.current.blur();
+    setValue('');
+    dispatch(setCitiesDefault([]));
     isMounted.current = true;
   };
 
