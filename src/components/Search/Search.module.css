@@ -68,3 +68,30 @@ input:focus {
   color: #fff;
   background-color: #075985;
 }
+
+@media not all and (min-width: 768px) {
+  .root {
+    margin-bottom: 20px;
+  }
+
+  .input {
+    font-size: 14px;
+  }
+
+  .icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .searchcircle {
+    width: 24px;
+    height: 24px;
+  }
+
+  .searchbar {
+    font-size: 14px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    top: 40px;
+  }
+}

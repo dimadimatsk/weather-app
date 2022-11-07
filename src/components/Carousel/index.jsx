@@ -5,10 +5,20 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleChevronRight, faCircleChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
 
 const Carousel = () => {
-  const [offset, setOffset] = useState(-6440);
+  const [width, setWidth] = useState(
+    document.documentElement.clientWidth > 1440
+      ? 1440
+      : document.documentElement.clientWidth < 768
+      ? document.documentElement.clientWidth - 40
+      : document.documentElement.clientWidth,
+  );
 
+  const [offset, setOffset] = useState(
+    document.documentElement.clientWidth >= 768 ? -(width * 5 - 76 * 2 * 5) : -(width * 5),
+  );
   const forecast = useSelector((state) => state.search.res.days);
   const locName = useSelector((state) => state.geo.cityName);
 
@@ -16,9 +26,12 @@ const Carousel = () => {
     console.log('left');
 
     setOffset((currentOffset) => {
-      const newOffset = currentOffset + 1288;
+      console.log(currentOffset);
+      const newOffset =
+        document.documentElement.clientWidth >= 768
+          ? currentOffset + (width - 76 * 2)
+          : currentOffset + width;
 
-      console.log(newOffset);
       return Math.min(newOffset, 0);
     });
   };
@@ -26,25 +39,31 @@ const Carousel = () => {
   const handleRightClick = () => {
     console.log('right');
 
-    const maxOffset = -(1288 * (forecast.length - 1));
+    const maxOffset =
+      document.documentElement.clientWidth >= 768
+        ? -((width - 76 * 2) * (forecast.length - 1))
+        : -(width * (forecast.length - 1));
 
     setOffset((currentOffset) => {
-      const newOffset = currentOffset - 1288;
+      const newOffset =
+        document.documentElement.clientWidth >= 768
+          ? currentOffset - (width - 76 * 2)
+          : currentOffset - width;
 
-      console.log(newOffset, maxOffset);
+      console.log('new', newOffset, 'offset', offset);
       return Math.max(newOffset, maxOffset);
     });
   };
 
   return (
-    <div className="h-[500px] w-[1440px] flex items-center z-[5]">
+    <div className={`flex items-center z-[5] ${styles.container}`} style={{ width: `${width}px` }}>
       <FontAwesomeIcon
         className={`mr-4 ${styles.arrow} ${offset === 0 ? styles.disabled : ''}`}
         disabled={offset === 0}
         icon={faCircleChevronLeft}
         onClick={handleLeftClick}
       />
-      <div className="w-full h-full overflow-hidden rounded-3xl">
+      <div className={`w-full h-full overflow-hidden rounded-3xl ${styles.weather}`}>
         <div
           className={`h-full flex ${styles.pages}`}
           style={{
@@ -67,8 +86,14 @@ const Carousel = () => {
         </div>
       </div>
       <FontAwesomeIcon
-        className={`ml-4 ${styles.arrow} ${offset === -11980 ? styles.disabled : ''}`}
-        disabled={offset === -11980}
+        className={`ml-4 ${styles.arrow} ${
+          offset === -(width * 10 - 76 * 2 * 10)
+            ? styles.disabled
+            : offset === -(width * 10)
+            ? styles.disabled
+            : ''
+        }`}
+        disabled={offset === -(width * 10 - 76 * 2 * 10) || -(width * 10)}
         icon={faCircleChevronRight}
         onClick={handleRightClick}
       />

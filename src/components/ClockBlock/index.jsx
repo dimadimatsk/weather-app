@@ -26,12 +26,12 @@ const ClockBlock = () => {
 
   return (
     <div className="flex flex-col items-end">
-      <p className="text-sky-700">
+      <p className="text-sky-700 text-end max-mid:text-[12px]">
         {dayOfWeek}, {today}
       </p>
       <div className="flex flex-row items-center">
-        <img alt="daynight" className="w-7 h-7 mr-1" src={dayPart ? nightPic : dayPic} />
-        <p className="text-sky-700">{currentTime}</p>
+        <img alt="daynight" className="w-7 h-7 mr-1 max-mid:w-4 h-4" src={dayPart ? nightPic : dayPic} />
+        <p className="text-sky-700 max-mid:text-[12px]">{currentTime}</p>
       </div>
     </div>
   );
